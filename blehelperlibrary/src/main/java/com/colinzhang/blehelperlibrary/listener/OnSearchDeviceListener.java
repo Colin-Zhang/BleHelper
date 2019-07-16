@@ -13,11 +13,8 @@ import java.util.List;
 
 public interface OnSearchDeviceListener extends IErrorListener {
 
-    void onStartDiscovery();
-
 
     void onNewDeviceFound(BluetoothDevice device);
 
 
-    void onSearchCompleted(List<SearchResult> bondedList, List<SearchResult> newList);
 }

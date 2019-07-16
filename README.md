@@ -12,14 +12,13 @@
 **1\.如何集成**
 
 ###### maven
+> <dependency>
+    <groupId>colin.zhang</groupId>
+    <artifactId>blehelperlibrary</artifactId>
+    <version>1.0.3</version>
+    <type>pom</type>
+  </dependency>
 
-> <dependency> 
->
-> <groupId>colin.zhang</groupId>
->
->  <artifactId>blehelperlibrary</artifactId>
->
->  <version>1.0.3</version> <type>pom</type> </dependency>
 
 ###### Gradle
 

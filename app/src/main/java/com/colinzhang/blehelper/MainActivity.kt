@@ -72,9 +72,7 @@ class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListe
         Log.e("message", "连接成功")
     }
 
-    override fun onStartDiscovery() {
 
-    }
 
     override fun onError(e: Exception?) {
 
@@ -91,9 +89,6 @@ class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListe
         }
     }
 
-    override fun onSearchCompleted(bondedList: MutableList<SearchResult>?, newList: MutableList<SearchResult>?) {
-
-    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
