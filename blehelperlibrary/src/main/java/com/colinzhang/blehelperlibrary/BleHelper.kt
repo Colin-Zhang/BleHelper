@@ -1,6 +1,6 @@
 package com.colinzhang.blehelperlibrary
 
-import android.app.Application
+
 import android.content.Context
 import com.colinzhang.blehelperlibrary.listener.OnConnectListener
 import com.colinzhang.blehelperlibrary.listener.OnReceiveMessageListener
@@ -17,6 +17,9 @@ class BleHelper private constructor() {
         BlueManager.instance.context = context.applicationContext
     }
 
+    /**
+     * 搜索设备
+     */
     fun searchBleDevices(onSearchDeviceListener: OnSearchDeviceListener) {
         BlueManager.instance.searchDevices(onSearchDeviceListener)
     }
@@ -37,6 +40,9 @@ class BleHelper private constructor() {
         BlueManager.instance.connectDevice(mac, onConnectListener)
     }
 
+    /**
+     * 设置接收数据监听
+     */
     fun setReceivedMessageListener(onReceiveMessageListener: OnReceiveMessageListener) {
         BlueManager.instance.onReceiveMessageListener = onReceiveMessageListener
     }

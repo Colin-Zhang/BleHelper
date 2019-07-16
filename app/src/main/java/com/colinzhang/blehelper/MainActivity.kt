@@ -19,48 +19,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListener, OnReceiveMessageListener {
-    override fun onReceiveMessage(s: ByteArray?) {
-        Log.e("message", s?.let { String(it) })
-    }
-
-    override fun onNotificationOpenSuccess() {
-        Log.e("message", "通知开启成功")
-    }
-
-    override fun onConnectFailed() {
-        Log.e("message", "连接失败")
-    }
-
-    override fun onConnectSuccess() {
-        Log.e("message", "连接成功")
-    }
 
     private var adapter: BleDeviceAdapter? = null
     private val PERMISSION_REQUEST_COARSE_LOCATION = 1
     private var deviceList: MutableList<BluetoothDevice> = mutableListOf()
-    override fun onStartDiscovery() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onNewDeviceFound(device: BluetoothDevice?) {
-        if (!device?.name.isNullOrEmpty()) {
-            if (deviceList.none { TextUtils.equals(it.name, device?.name) }) {
-                deviceList.add(device!!)
-                adapter?.notifyDataSetChanged()
-                Log.e("搜素到设备 :", device.name)
-            }
-        }
-    }
-
-    override fun onSearchCompleted(bondedList: MutableList<SearchResult>?, newList: MutableList<SearchResult>?) {
-
-    }
-
-    override fun onError(e: Exception?) {
-
-        Log.e("Main", e.toString())
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -94,6 +56,45 @@ class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListe
         BleHelper.instance.setReceivedMessageListener(this)
     }
 
+    override fun onReceiveMessage(s: ByteArray?) {
+        Log.e("message", s?.let { String(it) })
+    }
+
+    override fun onNotificationOpenSuccess() {
+        Log.e("message", "通知开启成功")
+    }
+
+    override fun onConnectFailed() {
+        Log.e("message", "连接失败")
+    }
+
+    override fun onConnectSuccess() {
+        Log.e("message", "连接成功")
+    }
+
+    override fun onStartDiscovery() {
+
+    }
+
+    override fun onError(e: Exception?) {
+
+        Log.e("Main", e.toString())
+    }
+
+    override fun onNewDeviceFound(device: BluetoothDevice?) {
+        if (!device?.name.isNullOrEmpty()) {
+            if (deviceList.none { TextUtils.equals(it.name, device?.name) }) {
+                deviceList.add(device!!)
+                adapter?.notifyDataSetChanged()
+                Log.e("搜素到设备 :", device.name)
+            }
+        }
+    }
+
+    override fun onSearchCompleted(bondedList: MutableList<SearchResult>?, newList: MutableList<SearchResult>?) {
+
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             PERMISSION_REQUEST_COARSE_LOCATION ->
@@ -101,4 +102,5 @@ class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListe
                 }
         }
     }
+
 }

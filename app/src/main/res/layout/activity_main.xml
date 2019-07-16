@@ -13,7 +13,6 @@
             android:layout_height="wrap_content"
             android:text="搜索"
             android:id="@+id/search"
-
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -22,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="断开链接"
             android:id="@+id/stopConnection"
-
             app:layout_constraintStart_toEndOf="@+id/search" android:layout_marginStart="8dp"/>
 
     <android.support.v7.widget.RecyclerView

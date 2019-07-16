@@ -4,6 +4,7 @@ import android.bluetooth.*
 
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
+import android.content.ContentValues.TAG
 
 import android.content.Context
 import android.os.Build
@@ -17,6 +18,8 @@ import com.colinzhang.blehelperlibrary.listener.OnSearchDeviceListener
 import java.lang.Exception
 import java.util.*
 import java.util.Objects.requireNonNull
+import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattService
 
 
 /**
@@ -27,10 +30,7 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
     BluetoothLeClass.OnDataAvailableListener {
 
     private val NOT_BLUETOOTH_MODULE = "device has not bluetooth module!"
-    /**
-     * 连接到的设备特征
-     */
-    private var alertLevel: BluetoothGattCharacteristic? = null
+
     /**
      * 连接蓝牙需要用到ApplicationContext
      */
@@ -60,13 +60,26 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
      * 收到设备发送的消息监听
      */
     var onReceiveMessageListener: OnReceiveMessageListener? = null
-
+    /**
+     * 通知蓝牙特征
+     */
+    private var notifyCharacter: BluetoothGattCharacteristic? = null
+    /**
+     * 写入蓝牙设备特征
+     */
+    private var writeCharacter: BluetoothGattCharacteristic? = null
+    /**
+     * 设备UUID
+     */
+    private var bleUUID: BleUUID? = null
+    /**
+     * 设备连接状态监听
+     */
     private val mOnServiceDiscover =
         BluetoothLeClass.OnServiceDiscoverListener { displayGattServices(mBLE?.supportedGattServices) }
 
     init {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-
     }
 
     companion object {
@@ -190,10 +203,17 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
     private fun displayGattServices(gattServices: List<BluetoothGattService>?) {
         requireNotNull(gattServices)
         requireNonNull(onConnectListener, "onConnectListener is null")
-        val linkLossService =
-            mBLE?.getmBluetoothGatt()?.getService(UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb"))
-        alertLevel = linkLossService?.getCharacteristic(UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb"))
-        mBLE?.setCharacteristicNotification(alertLevel, true)
+        initCharacteristicUuid(gattServices)
+        writeCharacter = getCharacteristic(bleUUID?.ServiceUUID, bleUUID?.CharacterUUID_WRITE)
+        notifyCharacter = getCharacteristic(bleUUID?.ServiceUUID, bleUUID?.CharacterUUID_NOTIFY)
+        mBLE!!.setCharacteristicNotification(notifyCharacter, true)
+        notifyCharacter?.descriptors?.forEach {
+            setDescriptorValue(
+                notifyCharacter,
+                it.uuid.toString(),
+                BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+            )
+        }
         onConnectListener?.onNotificationOpenSuccess()
     }
 
@@ -212,6 +232,62 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
     override fun onCharacteristicWrite(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic?) {
         requireNonNull(onReceiveMessageListener, "onReceiveMessageListener is Null")
         onReceiveMessageListener?.onReceiveMessage(characteristic?.value)
+    }
+
+
+    /**
+     * 获取特征
+     *
+     * @param serviceID
+     * @param characteristicID
+     * @return
+     */
+    private fun getCharacteristic(serviceID: String?, characteristicID: String?): BluetoothGattCharacteristic {
+        val linkLossService = mBLE?.getmBluetoothGatt()?.getService(UUID.fromString(serviceID))
+        return linkLossService?.getCharacteristic(UUID.fromString(characteristicID))!!
+    }
+
+    /**
+     * 设置描述
+     * @param characteristic
+     * @param descID
+     * @param value
+     * @return
+     */
+    private fun setDescriptorValue(characteristic: BluetoothGattCharacteristic?, descID: String, value: ByteArray): Boolean? {
+        val desc = characteristic?.getDescriptor(UUID.fromString(descID))
+        desc?.value = value
+        return mBLE?.getmBluetoothGatt()?.writeDescriptor(desc)
+    }
+
+    /**
+     * 获取设备特征uuid
+     * @param gattServices 服务列表
+     */
+    private fun initCharacteristicUuid(gattServices: List<BluetoothGattService>) {
+        bleUUID = BleUUID()
+        for (bluetoothGattService in gattServices) {
+            val characteristics = bluetoothGattService.characteristics
+            for (characteristic in characteristics) {
+                val charaProp = characteristic.properties
+                if (charaProp and BluetoothGattCharacteristic.PROPERTY_READ > 0) {
+                    bleUUID?.CharacterUUID_READ = characteristic.uuid.toString()
+                    bleUUID?.ServiceUUID = bluetoothGattService.uuid.toString()
+                }
+                if (charaProp and BluetoothGattCharacteristic.PROPERTY_WRITE > 0) {
+                    bleUUID?.CharacterUUID_WRITE = characteristic.uuid.toString()
+                    bleUUID?.ServiceUUID = bluetoothGattService.uuid.toString()
+                }
+                if (charaProp and BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE > 0) {
+                    bleUUID?.CharacterUUID_WRITE = characteristic.uuid.toString()
+                    bleUUID?.ServiceUUID = bluetoothGattService.uuid.toString()
+                }
+                if (charaProp and BluetoothGattCharacteristic.PROPERTY_NOTIFY > 0) {
+                    bleUUID?.CharacterUUID_NOTIFY = characteristic.uuid.toString()
+                    bleUUID?.ServiceUUID = bluetoothGattService.uuid.toString()
+                }
+            }
+        }
     }
 
     /**
