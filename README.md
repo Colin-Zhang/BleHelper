@@ -11,7 +11,7 @@
 
 **1\.如何集成**
 
-###### maven
+###### Maven
 > <dependency>
     <groupId>colin.zhang</groupId>
     <artifactId>blehelperlibrary</artifactId>
