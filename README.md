@@ -5,7 +5,7 @@
 3\. 连接设备<br>
 4\. 收取设备信息<br>
 5\. 写入设备数据<br>
-6\. 构建命令 <br>
+6\. 关闭连接 <br>
 
 ------
 
@@ -106,53 +106,29 @@
 
 > |           参数           | 必选 | 类型      | 说明                     |
 > | :----------------------: | :--- | :-------- | ------------------------ |
-> | OnReceiveMessageListener | true | interface | 设备发送到手机的数据回调 |
+> | byteArray | true | ByteArray | 手机发送到设备的数据 |
 ###### 返回结果
 
 > | 返回结果 | 字段类型  | 说明                   |
 > | :------- | :-------- | :--------------------- |
-> | s        | ByteArray | 设备发送的数据byte数组 |
+> | isSuccess        | Boolean | 是否发送成功 |
 
 ###### 方法调用示例
 
 > 示例：<br>
 
 ```
-         ResultBean result = SefonLockHelper.getInstance().analysisCommand(bean.getMessage());
+              BleHelper.instance.sendDataToDevice(ByteArray())
 ```
 
 **6\.构建命令**
 
 ###### 传入参数
 
-> |           参数           | 必选 | 类型      | 说明                     |
-> | :----------------------: | :--- | :-------- | ------------------------ |
-> | OnReceiveMessageListener | true | interface | 设备发送到手机的数据回调 |
 
-###### 返回结果
-
-> | 返回结果 | 字段类型  | 说明                   |
-> | :------- | :-------- | :--------------------- |
-> | s        | ByteArray | 设备发送的数据byte数组 |
-
-###### 方法调用示例
 
 > 示例：<br>
 
 ```
- byte[] byteArray = SefonLockHelper.getInstance().buildCommand(100, message)
-```
-
-> 使用范围: <br>
-
-> > 查询命令使用 <br>
-
-```
- byte[] byteArray = SefonLockHelper.getInstance().buildCommand(100, message)
-```
-
-> > 修改命令使用 <br>
-
-```
- byte[] byteArray = SefonLockHelper.getInstance().buildCommand(107, message,value)
+            BleHelper.instance.stopConnection()
 ```

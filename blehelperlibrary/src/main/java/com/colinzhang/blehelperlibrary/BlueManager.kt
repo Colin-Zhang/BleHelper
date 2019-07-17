@@ -111,10 +111,10 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
             onSearchDeviceListener.onError(NullPointerException(NOT_BLUETOOTH_MODULE))
         else {
             if (Build.VERSION.SDK_INT >= 21) {
-                val scanner = mBluetoothAdapter!!.bluetoothLeScanner
+                val scanner = mBluetoothAdapter?.bluetoothLeScanner
                 if (mBluetoothAdapter!!.isDiscovering)
-                    scanner.stopScan(mBleScanCallBack)
-                scanner.startScan(mBleScanCallBack)
+                    scanner?.stopScan(mBleScanCallBack)
+                scanner?.startScan(mBleScanCallBack)
             } else {
                 if (mBluetoothAdapter!!.isDiscovering)
                     mBluetoothAdapter!!.stopLeScan(this)
@@ -217,6 +217,7 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
         onConnectListener?.onNotificationOpenSuccess()
     }
 
+
     /**
      * 读取设备数据
      */
@@ -234,6 +235,16 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
         onReceiveMessageListener?.onReceiveMessage(characteristic?.value)
     }
 
+    /**
+     * 向设备写入数据
+     * @param bytes 需要写入设备的数据
+     * @return 是否发送成功
+     */
+    fun writeDataToDevice(bytes: ByteArray): Boolean {
+        mBLE!!.setCharacteristicNotification(notifyCharacter, true)
+        writeCharacter!!.value = bytes
+        return mBLE!!.writeCharacteristic(writeCharacter)
+    }
 
     /**
      * 获取特征
@@ -252,9 +263,12 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
      * @param characteristic
      * @param descID
      * @param value
-     * @return
      */
-    private fun setDescriptorValue(characteristic: BluetoothGattCharacteristic?, descID: String, value: ByteArray): Boolean? {
+    private fun setDescriptorValue(
+        characteristic: BluetoothGattCharacteristic?,
+        descID: String,
+        value: ByteArray
+    ): Boolean? {
         val desc = characteristic?.getDescriptor(UUID.fromString(descID))
         desc?.value = value
         return mBLE?.getmBluetoothGatt()?.writeDescriptor(desc)

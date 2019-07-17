@@ -7,7 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写入数据"
+            android:id="@+id/sendData"
 
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/search"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

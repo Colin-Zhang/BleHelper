@@ -46,4 +46,11 @@ class BleHelper private constructor() {
     fun setReceivedMessageListener(onReceiveMessageListener: OnReceiveMessageListener) {
         BlueManager.instance.onReceiveMessageListener = onReceiveMessageListener
     }
+
+    /**
+     * 向设备发送数据
+     */
+    fun sendDataToDevice(array:ByteArray):Boolean{
+        return BlueManager.instance.writeDataToDevice(array)
+    }
 }

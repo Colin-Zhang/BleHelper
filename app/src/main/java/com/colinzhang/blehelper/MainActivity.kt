@@ -39,8 +39,10 @@ class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListe
             BleHelper.instance.searchBleDevices(this)
         }
         stopConnection.setOnClickListener {
-            deviceList.clear()
             BleHelper.instance.stopConnection()
+        }
+        sendData.setOnClickListener {
+            BleHelper.instance.sendDataToDevice(ByteArray(1))
         }
     }
 
@@ -71,8 +73,6 @@ class MainActivity : AppCompatActivity(), OnSearchDeviceListener, OnConnectListe
     override fun onConnectSuccess() {
         Log.e("message", "连接成功")
     }
-
-
 
     override fun onError(e: Exception?) {
 

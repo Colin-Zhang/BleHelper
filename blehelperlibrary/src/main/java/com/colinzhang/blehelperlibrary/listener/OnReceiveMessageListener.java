@@ -12,3 +12,4 @@ public interface OnReceiveMessageListener{
      */
     void onReceiveMessage(byte[] s);
 }
+
