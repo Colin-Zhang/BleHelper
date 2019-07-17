@@ -24,12 +24,13 @@
 
 > compile 'colin.zhang:blehelperlibrary:1.0.4'
 
-###### lvy
+###### lvy 
 > <dependency org='colin.zhang' name='blehelperlibrary' rev='1.0.3'> 
-   <artifact name='blehelperlibrary' ext='pom' ></artifact>
- </dependency>
+     <artifact name='blehelperlibrary' ext='pom' ></artifact>
+   </dependency>
 
-###使用前准备
+###使用前准备 
+
 需在Application中写入         BleHelper.Companion.getInstance().init(getApplicationContext());
 
 **2\.搜索蓝牙设备**
