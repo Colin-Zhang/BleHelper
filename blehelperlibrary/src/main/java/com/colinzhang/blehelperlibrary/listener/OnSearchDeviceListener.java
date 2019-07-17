@@ -1,10 +1,9 @@
 package com.colinzhang.blehelperlibrary.listener;
 
 import android.bluetooth.BluetoothDevice;
-import com.colinzhang.blehelperlibrary.SearchResult;
 
 
-import java.util.List;
+
 
 /**
  * Created by zhang on 2018/12/11.

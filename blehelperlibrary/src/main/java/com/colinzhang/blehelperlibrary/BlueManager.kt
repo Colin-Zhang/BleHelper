@@ -26,7 +26,7 @@ import android.bluetooth.BluetoothGattService
  * Created by zhang on 2018/12/11.
  */
 
-class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectListener,
+internal class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectListener,
     BluetoothLeClass.OnDataAvailableListener {
 
     private val NOT_BLUETOOTH_MODULE = "device has not bluetooth module!"
@@ -190,9 +190,10 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
     }
 
     /**
-     * 连接设备成功回调
+     * 连接设备成功停止搜素回调
      */
     override fun onConnect(gatt: BluetoothGatt?) {
+        stopSearchDevices()
         onConnectListener?.onConnectSuccess()
     }
 
@@ -241,6 +242,7 @@ class BlueManager : BluetoothAdapter.LeScanCallback, BluetoothLeClass.OnConnectL
      * @return 是否发送成功
      */
     fun writeDataToDevice(bytes: ByteArray): Boolean {
+        requireNonNull(bytes,"SendData is Null")
         mBLE!!.setCharacteristicNotification(notifyCharacter, true)
         writeCharacter!!.value = bytes
         return mBLE!!.writeCharacteristic(writeCharacter)

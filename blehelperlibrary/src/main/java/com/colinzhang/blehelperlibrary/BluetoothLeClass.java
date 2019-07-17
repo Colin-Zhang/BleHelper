@@ -10,7 +10,7 @@ import java.util.List;
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothLeClass {
+ class BluetoothLeClass {
     private final static String TAG = BluetoothLeClass.class.getSimpleName();
 
 

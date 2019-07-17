@@ -6,7 +6,7 @@ import com.colinzhang.blehelperlibrary.listener.OnConnectListener
 import com.colinzhang.blehelperlibrary.listener.OnReceiveMessageListener
 import com.colinzhang.blehelperlibrary.listener.OnSearchDeviceListener
 
-class BleHelper private constructor() {
+ class BleHelper private constructor() {
     companion object {
         val instance: BleHelper by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             BleHelper()

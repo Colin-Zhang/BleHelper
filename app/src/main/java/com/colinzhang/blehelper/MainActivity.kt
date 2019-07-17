@@ -2,16 +2,17 @@ package com.colinzhang.blehelper
 
 import android.Manifest
 import android.bluetooth.BluetoothDevice
+
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat.requestPermissions
+
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import com.colinzhang.blehelperlibrary.BleHelper
-import com.colinzhang.blehelperlibrary.SearchResult
+
 import com.colinzhang.blehelperlibrary.listener.OnConnectListener
 import com.colinzhang.blehelperlibrary.listener.OnReceiveMessageListener
 import com.colinzhang.blehelperlibrary.listener.OnSearchDeviceListener
