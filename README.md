@@ -22,7 +22,7 @@
 
 ###### Gradle
 
-> compile 'colin.zhang:blehelperlibrary:1.0.3'
+> compile 'colin.zhang:blehelperlibrary:1.0.4'
 
 ###### lvy
 
@@ -121,7 +121,7 @@
               BleHelper.instance.sendDataToDevice(ByteArray())
 ```
 
-**6\.构建命令**
+**6\.关闭连接**
 
 ###### 传入参数
 

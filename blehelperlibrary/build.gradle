@@ -14,8 +14,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -47,7 +47,7 @@ def gitUrl = 'https://github.com/Colin-Zhang/BleHelper.git'
 
 def libName = "BleHelperLibrary"// 上传到 Bintray 的 package 名称。
 group = "colin.zhang"
-version = "1.0.3"
+version = "1.0.4"
 // 这两个参数配置是为了最终生成 compile 'me.lfq:依赖库的名称:1.0.0'  group  version 是关键字，自动识别的。只需配置好就行。
 
 install {
