@@ -29,7 +29,7 @@
      <artifact name='blehelperlibrary' ext='pom' ></artifact>
    </dependency>
 
-###使用前准备 
+###### 使用前准备 
 
 需在Application中写入         BleHelper.Companion.getInstance().init(getApplicationContext());
 
