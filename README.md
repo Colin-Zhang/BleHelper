@@ -15,7 +15,7 @@
 > <dependency>
     <groupId>colin.zhang</groupId>
     <artifactId>blehelperlibrary</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <type>pom</type>
   </dependency>
 
@@ -25,7 +25,7 @@
 > compile 'colin.zhang:blehelperlibrary:1.0.4'
 
 ###### lvy 
-> <dependency org='colin.zhang' name='blehelperlibrary' rev='1.0.3'> 
+> <dependency org='colin.zhang' name='blehelperlibrary' rev='1.0.4'> 
      <artifact name='blehelperlibrary' ext='pom' ></artifact>
    </dependency>
 
